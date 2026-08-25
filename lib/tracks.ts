@@ -2,7 +2,7 @@ import type { Track, TrackId } from "./types";
 
 /**
  * 4 套测评套件（Track Matrix）。
- * 每套聚焦 6 个 FYI 胜任力维度，与 lib/questionBank.ts 中的选项一一对应。
+ * 每套聚焦 8 个胜任力维度，与 lib/questionBank.ts 中的选项一一对应。
  */
 export const TRACKS: Record<TrackId, Track> = {
   campus: {
@@ -20,6 +20,8 @@ export const TRACKS: Record<TrackId, Track> = {
       "peer_relationships",
       "self_knowledge",
       "functional_execution",
+      "problem_solving",
+      "customer_empathy",
     ],
     theme: {
       gradient: "from-indigo-500 to-violet-600",
@@ -46,6 +48,8 @@ export const TRACKS: Record<TrackId, Track> = {
       "customer_focus",
       "interpersonal_savvy",
       "resilience",
+      "strategic_agility",
+      "priority_setting",
     ],
     theme: {
       gradient: "from-violet-500 to-fuchsia-600",
@@ -67,11 +71,13 @@ export const TRACKS: Record<TrackId, Track> = {
       "聚焦高质量决策、复杂问题解决、创新管理、驾驭模糊、跨职能协作与专业深度，帮助企业筛选能攻坚复杂系统的技术人才。",
     dimensions: [
       "decision_quality",
-      "problem_solving",
+      "complex_problem_solving",
       "innovation_mgmt",
       "dealing_with_ambiguity",
       "cross_functional",
       "technical_depth",
+      "process_management",
+      "customer_centric_tech",
     ],
     theme: {
       gradient: "from-sky-500 to-blue-600",
@@ -98,6 +104,8 @@ export const TRACKS: Record<TrackId, Track> = {
       "motivating_others",
       "organizational_agility",
       "decision_quality_macro",
+      "building_effective_teams",
+      "command_skills",
     ],
     theme: {
       gradient: "from-slate-700 to-slate-900",

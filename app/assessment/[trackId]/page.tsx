@@ -167,7 +167,7 @@ export default function AssessmentPage() {
           {/* 拖拽排序区 */}
           <div className="rounded-3xl border border-slate-200 bg-slate-50/60 p-5 shadow-card sm:p-6">
             <p className="mb-4 text-sm font-medium text-slate-600">
-              将以下 6 个行动选项，从「最符合你的做法」拖拽排序到「最不符合」：
+              将以下 8 个行动选项，从「最符合你的做法」拖拽排序到「最不符合」：
             </p>
             <RankingBoard
               options={current.options}

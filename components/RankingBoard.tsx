@@ -18,9 +18,11 @@ const RANK_BADGES = [
   "bg-indigo-600",
   "bg-indigo-500",
   "bg-violet-500",
+  "bg-violet-400",
   "bg-slate-400",
   "bg-slate-500",
   "bg-slate-600",
+  "bg-slate-700",
 ];
 
 interface RankingBoardProps {
@@ -68,7 +70,7 @@ export default function RankingBoard({
           最倾向 / 最符合（Rank 1）
         </span>
         <span className="inline-flex items-center gap-1.5">
-          最不倾向 / 最不符合（Rank 6）
+          最不倾向 / 最不符合（Rank 8）
           <span className="h-2 w-2 rounded-full bg-slate-500" />
         </span>
       </div>

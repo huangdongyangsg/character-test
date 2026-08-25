@@ -73,7 +73,7 @@ export default function HomePage() {
           </p>
 
           <div className="mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-3 text-sm text-slate-500">
-            {["Borda 迫选计分", "6 大胜任力维度", "雷达图 × 柱状图", "STAR 追问指南"].map(
+            {["Borda 迫选计分", "8 大胜任力维度", "雷达图 × 指数条", "STAR 追问指南"].map(
               (f) => (
                 <span
                   key={f}

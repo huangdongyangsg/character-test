@@ -21,7 +21,7 @@ export interface Track {
   tagline: string;
   audience: string;
   description: string;
-  /** 考察的 6 个 FYI 维度 key（与 questionBank 中的选项一一对应） */
+  /** 考察的 8 个胜任力维度 key（与 questionBank 中的选项一一对应） */
   dimensions: string[];
   theme: TrackTheme;
 }
@@ -65,7 +65,7 @@ export interface Question {
   id: string;
   trackId: TrackId;
   scenario: string;
-  /** 6 个选项，严格一一对应套件的 6 个维度 */
+  /** 8 个选项，严格一一对应套件的 8 个维度 */
   options: Option[];
 }
 
@@ -84,7 +84,7 @@ export interface DimensionScore {
   maxScore: number;
   /** 标准化 0–100 指数 */
   normalized: number;
-  /** 排名 1..6（1 为最高） */
+  /** 排名 1..8（1 为最高） */
   rank: number;
 }
 
@@ -115,6 +115,71 @@ export interface InterviewKitItem {
   question: InterviewQuestion;
 }
 
+/** 高管画像核心标签与一句话总结 */
+export interface ArchetypeSummary {
+  tags: string[];
+  summary: string;
+}
+
+/** Top 4 胜任力高亮卡 */
+export interface StatCard {
+  key: string;
+  label: string;
+  fyiname: string;
+  normalized: number;
+}
+
+/** 单个职场元动力的倾向 */
+export interface DynamicLean {
+  title: string;
+  lean: string;
+  description: string;
+}
+
+/** 底层驱动力与价值观 */
+export interface DriverDynamics {
+  title: string;
+  primary: string;
+  secondary: string;
+  weaker: string;
+  description: string;
+}
+
+/** 四大深度职场工作元动力 */
+export interface WorkplaceDynamics {
+  decisionLogic: DynamicLean;
+  leadership: DynamicLean;
+  communication: DynamicLean;
+  drivers: DriverDynamics;
+}
+
+/** 胜任力过载风险 */
+export interface OveruseRisk {
+  key: string;
+  label: string;
+  fyiname: string;
+  normalized: number;
+  overuseRisk: string;
+}
+
+/** 角色与工作环境匹配度 */
+export interface RoleFit {
+  highFit: string[];
+  lowFit: string[];
+  bestEnv: string;
+  frictionEnv: string;
+}
+
+export type FlagType = "ok" | "warn" | "danger";
+
+/** 答题真实性与一致性防作弊指数 */
+export interface ConsistencyReport {
+  score: number;
+  label: string;
+  flag: string;
+  flagType: FlagType;
+}
+
 /** 最终报告数据 */
 export interface ReportData {
   candidateName: string;
@@ -126,8 +191,14 @@ export interface ReportData {
   generatedAt: string;
   questionCount: number;
   scores: DimensionScore[];
+  archetype: ArchetypeSummary;
+  topStats: StatCard[];
+  dynamics: WorkplaceDynamics;
   strengths: StrengthInsight[];
+  overuseRisks: OveruseRisk[];
   blindSpots: BlindSpotInsight[];
+  roleFit: RoleFit;
+  consistency: ConsistencyReport;
   interviewKit: InterviewKitItem[];
 }
 
