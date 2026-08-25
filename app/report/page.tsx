@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { FileSearch, Loader2 } from "lucide-react";
 import ReportView from "@/components/ReportView";
-import { loadResult } from "@/lib/storage";
+import ReportErrorBoundary from "@/components/ReportErrorBoundary";
+import { clearResult, loadResult } from "@/lib/storage";
 import type { ReportData } from "@/lib/types";
 
 export default function ReportPage() {
@@ -12,7 +13,14 @@ export default function ReportPage() {
 
   useEffect(() => {
     setMounted(true);
-    setReport(loadResult());
+    const r = loadResult();
+    // 校验报告结构：旧版本缓存缺少 exec / interview 等字段，直接清理避免渲染崩溃
+    if (r && (r as ReportData).exec && (r as ReportData).interview && (r as ReportData).competency) {
+      setReport(r);
+    } else {
+      if (r) clearResult();
+      setReport(null);
+    }
   }, []);
 
   if (!mounted) {
@@ -43,5 +51,10 @@ export default function ReportPage() {
     );
   }
 
-  return <ReportView report={report} />;
+  return (
+    <ReportErrorBoundary>
+      <ReportView report={report} />
+    </ReportErrorBoundary>
+  );
 }
+
