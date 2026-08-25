@@ -180,7 +180,7 @@ export interface ConsistencyReport {
   flagType: FlagType;
 }
 
-/** 最终报告数据 */
+/** 最终报告数据（16 大白话模块） */
 export interface ReportData {
   candidateName: string;
   email: string;
@@ -191,15 +191,270 @@ export interface ReportData {
   generatedAt: string;
   questionCount: number;
   scores: DimensionScore[];
-  archetype: ArchetypeSummary;
-  topStats: StatCard[];
-  dynamics: WorkplaceDynamics;
-  strengths: StrengthInsight[];
-  overuseRisks: OveruseRisk[];
-  blindSpots: BlindSpotInsight[];
-  roleFit: RoleFit;
   consistency: ConsistencyReport;
-  interviewKit: InterviewKitItem[];
+  exec: ExecModule;
+  role: RoleModule;
+  stage: StageModule;
+  competency: CompetencyModule;
+  talents: TalentsModule;
+  personality: PersonalityModule;
+  thinking: ThinkingModule;
+  motivation: MotivationModule;
+  values: ValuesModule;
+  preferences: PreferencesModule;
+  conflict: ConflictModule;
+  risk: RiskModule;
+  crisis: CrisisModule;
+  team: TeamModule;
+  onboarding: OnboardingModule;
+  interview: InterviewModule;
+}
+
+export interface ExecModule {
+  callout: string;
+  code: string;
+  codeEn: string;
+  takeaways: Takeaway[];
+}
+
+export interface RoleModule {
+  callout: string;
+  topRoles: RoleRec[];
+  cautionRoles: RoleRec[];
+}
+
+export interface StageFit {
+  name: string;
+  score: number;
+  desc: string;
+}
+
+export interface StageModule {
+  callout: string;
+  stages: StageFit[];
+}
+
+export interface CompetencyModule {
+  callout: string;
+  items: CompetencyItem[];
+}
+
+export interface TalentsModule {
+  callout: string;
+  talents: { label: string; en: string; desc: string }[];
+  battleTypes: string[];
+}
+
+export interface PersonalityModule {
+  callout: string;
+  style: string;
+  styleEn: string;
+  styleDesc: string;
+  dims: { name: string; score: number }[];
+}
+
+export interface ThinkingModule {
+  callout: string;
+  macroLean: string;
+  macroDesc: string;
+  resourceLogic: string;
+}
+
+export interface MotivationModule {
+  callout: string;
+  drivers: MotivationDriver[];
+  fitEnv: string;
+  chokeEnv: string;
+}
+
+export interface ValuesModule {
+  callout: string;
+  corePursuit: string;
+  triggers: string;
+}
+
+export interface PreferencesModule {
+  callout: string;
+  items: DynamicLean[];
+}
+
+export interface ConflictModule {
+  callout: string;
+  style: string;
+  styleDesc: string;
+  persuadeMode: string;
+}
+
+export interface RiskModule {
+  callout: string;
+  overuse: OveruseItem[];
+  derailment: Derailment[];
+}
+
+export interface CrisisModule {
+  callout: string;
+  resilienceIndex: number;
+  resilienceLabel: string;
+  mode: string;
+  modeDesc: string;
+}
+
+export interface TeamModule {
+  callout: string;
+  position: string;
+  positionDesc: string;
+  complement: string;
+  complementDesc: string;
+}
+
+export interface OnboardingModule {
+  callout: string;
+  manageTips: string[];
+  donts: string[];
+  milestones: string[];
+}
+
+export interface InterviewModule {
+  callout: string;
+  tracks: InterviewTrack[];
+}
+
+export interface Takeaway {
+  title: string;
+  content: string;
+}
+
+export interface ExecutiveSummary {
+  code: string;
+  codeEn: string;
+  takeaways: Takeaway[];
+}
+
+export interface RoleRec {
+  role: string;
+  reason: string;
+}
+
+export interface RoleAlignment {
+  topRoles: RoleRec[];
+  cautionRoles: RoleRec[];
+  teamPosition: string;
+  teamPositionDesc: string;
+  complement: string;
+  complementDesc: string;
+}
+
+export interface CompetencyItem {
+  key: string;
+  label: string;
+  fyiname: string;
+  score: number;
+  percentile: number;
+  band: "high" | "mid" | "low";
+  category: string;
+  anchor: string;
+}
+
+export interface CompetencyBreakdown {
+  items: CompetencyItem[];
+  categories: string[];
+}
+
+export interface CognitiveModel {
+  processingMode: DynamicLean;
+  decisionBalance: DynamicLean;
+  ambiguityIndex: number;
+  ambiguityLabel: string;
+  ambiguityDesc: string;
+}
+
+export interface DynamicsDetail {
+  thinking: DynamicLean;
+  interpersonal: DynamicLean;
+  communication: DynamicLean;
+  changeAgility: DynamicLean;
+}
+
+export interface MotivationDriver {
+  name: string;
+  score: number;
+}
+
+export interface MotivationProfile {
+  drivers: MotivationDriver[];
+  fitCulture: string;
+  frictionCulture: string;
+}
+
+export interface LeadershipProfile {
+  archetype: string;
+  archetypeEn: string;
+  description: string;
+  microControl: number;
+  faultTolerance: number;
+  conflictRigidity: number;
+}
+
+export interface OveruseItem {
+  label: string;
+  fyiname: string;
+  risk: string;
+}
+
+export interface Derailment {
+  trigger: string;
+  advice: string;
+}
+
+export interface RiskReport {
+  overuse: OveruseItem[];
+  derailment: Derailment[];
+}
+
+export interface CrisisReport {
+  resilienceIndex: number;
+  resilienceLabel: string;
+  mode: string;
+  modeDesc: string;
+}
+
+export interface OnboardingGuide {
+  manageTips: string[];
+  donts: string[];
+  milestones: string[];
+}
+
+export interface IDPPriority {
+  label: string;
+  fyiname: string;
+  goal: string;
+}
+
+export interface IDP {
+  priorities: IDPPriority[];
+  onTheJob: string[];
+  learnFromOthers: string[];
+  reflection: string[];
+}
+
+export interface InterviewQuestionFull {
+  dimensionKey: string;
+  dimensionLabel: string;
+  intent: string;
+  prompt: string;
+  probes: string[];
+  greenFlags: string[];
+  redFlags: string[];
+}
+
+export interface InterviewTrack {
+  track: string;
+  trackDesc: string;
+  items: InterviewQuestionFull[];
+}
+
+export interface InterviewKit {
+  tracks: InterviewTrack[];
 }
 
 /** 会话信息（选轨页 → 答题页） */
