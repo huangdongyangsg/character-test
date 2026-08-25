@@ -174,7 +174,6 @@ export default function AssessmentPage() {
               order={currentOrder}
               onReorder={handleReorder}
               onReset={handleReset}
-              touched={isTouched}
             />
           </div>
 

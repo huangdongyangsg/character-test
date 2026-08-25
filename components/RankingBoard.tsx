@@ -6,7 +6,12 @@ import {
   Droppable,
   type DropResult,
 } from "@hello-pangea/dnd";
-import { GripVertical, RotateCcw } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+  RotateCcw,
+} from "lucide-react";
 import type { Option } from "@/lib/types";
 
 const RANK_BADGES = [
@@ -23,7 +28,6 @@ interface RankingBoardProps {
   order: string[];
   onReorder: (newOrder: string[]) => void;
   onReset: () => void;
-  touched: boolean;
 }
 
 export default function RankingBoard({
@@ -31,7 +35,6 @@ export default function RankingBoard({
   order,
   onReorder,
   onReset,
-  touched,
 }: RankingBoardProps) {
   const byId = new Map(options.map((o) => [o.id, o]));
   const items = order
@@ -44,6 +47,15 @@ export default function RankingBoard({
     const newOrder = Array.from(order);
     const [removed] = newOrder.splice(result.source.index, 1);
     newOrder.splice(result.destination.index, 0, removed);
+    onReorder(newOrder);
+  };
+
+  /** 点击上下按钮移动一位（移动端/无障碍的可靠替代） */
+  const move = (index: number, dir: -1 | 1) => {
+    const target = index + dir;
+    if (target < 0 || target >= items.length) return;
+    const newOrder = Array.from(order);
+    [newOrder[index], newOrder[target]] = [newOrder[target], newOrder[index]];
     onReorder(newOrder);
   };
 
@@ -75,23 +87,53 @@ export default function RankingBoard({
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      {...provided.dragHandleProps}
                       style={provided.draggableProps.style}
-                      className={`group flex items-center gap-3 rounded-2xl border bg-white p-3.5 pr-3 transition-shadow ${
+                      className={`flex items-center gap-2.5 rounded-2xl border bg-white p-3 transition-shadow ${
                         snapshot.isDragging
                           ? "border-indigo-300 shadow-float ring-2 ring-indigo-200"
                           : "border-slate-200 hover:border-indigo-200"
                       }`}
                     >
+                      {/* 独立拖拽手柄（仅此处可拖拽，避免与滚动/点击冲突） */}
+                      <span
+                        {...provided.dragHandleProps}
+                        aria-label="拖拽排序"
+                        className="flex h-10 w-8 shrink-0 cursor-grab touch-none items-center justify-center rounded-lg text-slate-300 transition-colors hover:text-slate-500 active:cursor-grabbing"
+                      >
+                        <GripVertical className="h-5 w-5" />
+                      </span>
+
                       <span
                         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white shadow-sm ${RANK_BADGES[i]}`}
                       >
                         {i + 1}
                       </span>
-                      <p className="flex-1 text-sm leading-relaxed text-slate-700">
+
+                      <p className="min-w-0 flex-1 text-sm leading-relaxed text-slate-700">
                         {opt.text}
                       </p>
-                      <GripVertical className="h-5 w-5 shrink-0 cursor-grab text-slate-300 transition-colors group-hover:text-slate-400 active:cursor-grabbing" />
+
+                      {/* 上移 / 下移（移动端点击即可完成排序） */}
+                      <div className="flex shrink-0 flex-col gap-1">
+                        <button
+                          type="button"
+                          onClick={() => move(i, -1)}
+                          disabled={i === 0}
+                          aria-label="上移一位"
+                          className="flex h-8 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <ChevronUp className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => move(i, 1)}
+                          disabled={i === items.length - 1}
+                          aria-label="下移一位"
+                          className="flex h-8 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <ChevronDown className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                   )}
                 </Draggable>
@@ -112,3 +154,4 @@ export default function RankingBoard({
     </div>
   );
 }
+
